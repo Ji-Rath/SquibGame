@@ -1,2 +1,3 @@
 # SquibGame
  
+Sett is based
