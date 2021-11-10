@@ -20,7 +20,6 @@ void AHumanCharacter::BeginPlay()
 	Super::BeginPlay();
 	
 	StopLightRef = Cast<AStopLight>(UGameplayStatics::GetActorOfClass(GetWorld(), AStopLight::StaticClass()));
-	ensure(StopLightRef);
 
 	ensure(RollMontage);
 
