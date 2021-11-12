@@ -66,12 +66,13 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void KillPlayer();
 
+	UPROPERTY(Replicated)
 	bool bIsAlive = true;
 
 	UFUNCTION()
 	void LightChanged(bool bIsGreenLight);
 
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, BlueprintPure)
 	bool CanMove();
 	bool CanMove_Implementation();
 };

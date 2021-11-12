@@ -5,6 +5,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "StopLight.h"
+#include "Net/UnrealNetwork.h"
 
 // Sets default values
 AHumanCharacter::AHumanCharacter()
@@ -123,4 +124,11 @@ void AHumanCharacter::LightChanged(bool bIsGreenLight)
 bool AHumanCharacter::CanMove_Implementation()
 {
 	return bIsAlive;
+}
+
+void AHumanCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AHumanCharacter, bIsAlive);
 }
