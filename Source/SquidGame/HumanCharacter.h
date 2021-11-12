@@ -40,8 +40,15 @@ public:
 	UFUNCTION()
 	void LookUp(float AxisValue);
 
-	UFUNCTION()
+	/* Actual roll functionality */
+	UFUNCTION(NetMulticast, Reliable)
 	void Roll();
+	void Roll_Implementation();
+
+	/* Called when the player wants to roll */
+	UFUNCTION(Server, Reliable)
+	void WantsToRoll();
+	void WantsToRoll_Implementation();
 
 	AStopLight* StopLightRef = nullptr;
 

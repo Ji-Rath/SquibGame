@@ -33,11 +33,14 @@ void AHumanCharacter::BeginPlay()
 void AHumanCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	if (bIsAlive && StopLightRef && GetVelocity().Size() > 0.f && StopLightRef->CanKillPlayers())
+	
+	if (GetNetMode() != NM_Client)
 	{
-		KillPlayer();
-		bIsAlive = false;
+		if (bIsAlive && StopLightRef && GetVelocity().Size() > 0.f && StopLightRef->CanKillPlayers())
+		{
+			KillPlayer();
+			bIsAlive = false;
+		}
 	}
 
 	if (bIsRolling)
@@ -58,7 +61,7 @@ void AHumanCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 	PlayerInputComponent->BindAxis("Turn", this, &AHumanCharacter::Turn);
 	PlayerInputComponent->BindAxis("LookUp", this, &AHumanCharacter::LookUp);
 
-	PlayerInputComponent->BindAction("Roll", EInputEvent::IE_Pressed, this, &AHumanCharacter::Roll);
+	PlayerInputComponent->BindAction("Roll", EInputEvent::IE_Pressed, this, &AHumanCharacter::WantsToRoll);
 }
 
 void AHumanCharacter::MoveForward(float AxisValue)
@@ -89,7 +92,7 @@ void AHumanCharacter::LookUp(float AxisValue)
 	AddControllerPitchInput(AxisValue);
 }
 
-void AHumanCharacter::Roll()
+void AHumanCharacter::Roll_Implementation()
 {
 	if (CanMove() && RollMontage)
 	{
@@ -99,6 +102,11 @@ void AHumanCharacter::Roll()
 		RollDuration *= 0.6f;
 		GetWorldTimerManager().SetTimer(RollTimerHandle, this, &AHumanCharacter::StopRoll, RollDuration, false);
 	}
+}
+
+void AHumanCharacter::WantsToRoll_Implementation()
+{
+	Roll();
 }
 
 void AHumanCharacter::StopRoll()
