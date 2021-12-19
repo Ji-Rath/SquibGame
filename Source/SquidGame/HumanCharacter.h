@@ -75,4 +75,8 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, BlueprintPure)
 	bool CanMove();
 	bool CanMove_Implementation();
+
+	UFUNCTION()
+	void Sprint();
+	void StopSprint();
 };

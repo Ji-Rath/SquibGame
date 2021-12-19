@@ -6,6 +6,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "StopLight.h"
 #include "Net/UnrealNetwork.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
 AHumanCharacter::AHumanCharacter()
@@ -63,6 +64,9 @@ void AHumanCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 	PlayerInputComponent->BindAxis("LookUp", this, &AHumanCharacter::LookUp);
 
 	PlayerInputComponent->BindAction("Roll", EInputEvent::IE_Pressed, this, &AHumanCharacter::WantsToRoll);
+
+	PlayerInputComponent->BindAction("Sprint", EInputEvent::IE_Pressed, this, &AHumanCharacter::Sprint);
+	PlayerInputComponent->BindAction("Sprint", EInputEvent::IE_Released, this, &AHumanCharacter::StopSprint);
 }
 
 void AHumanCharacter::MoveForward(float AxisValue)
@@ -131,4 +135,13 @@ void AHumanCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutL
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(AHumanCharacter, bIsAlive);
+}
+void AHumanCharacter::Sprint()
+{
+	GetCharacterMovement()->MaxWalkSpeed = 800.f;
+	
+}
+void AHumanCharacter::StopSprint()
+{
+	GetCharacterMovement()->MaxWalkSpeed = 600.f;
 }
