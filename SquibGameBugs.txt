@@ -1,0 +1,15 @@
+fix incorrect player names on steam
+fix pause menu not showing up
+fix not being able to host after being disconnected
+
+NOTES from SHOOTER GAME
+- Give instant feedback when possible when performing actions to minimize delayed input, such as animation or effects (due to server verified actions)
+- ex. Start reload animation on client but only begin reload timer after server verifies logic
+
+- NetMulticast basically doesnt exist in the SHOOTER GAME example
+
+
+NOTES FROM SQUIBGAME EXPERIMENT
+- Roll logic can probably be run on client instantly since the character already verifies player position
+- The main issue is having incorrect actor rotation during a roll, causing big desync
+- Possible solution: when server verifies roll, update actor rotation, character will handle rest
