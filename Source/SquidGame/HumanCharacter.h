@@ -40,8 +40,15 @@ public:
 	UFUNCTION()
 	void LookUp(float AxisValue);
 
-	UFUNCTION()
+	/* Actual roll functionality */
+	UFUNCTION(NetMulticast, Reliable)
 	void Roll();
+	void Roll_Implementation();
+
+	/* Called when the player wants to roll */
+	UFUNCTION(Server, Reliable)
+	void WantsToRoll();
+	void WantsToRoll_Implementation();
 
 	AStopLight* StopLightRef = nullptr;
 
@@ -59,12 +66,13 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void KillPlayer();
 
+	UPROPERTY(Replicated)
 	bool bIsAlive = true;
 
 	UFUNCTION()
 	void LightChanged(bool bIsGreenLight);
 
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, BlueprintPure)
 	bool CanMove();
 	bool CanMove_Implementation();
 };
